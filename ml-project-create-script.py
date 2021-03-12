@@ -178,9 +178,7 @@ if __name__ == "__main__":
 		os.mkdir(os.path.join(path, 'notebooks'))
 		os.mkdir(os.path.join(path, 'src'))
 
-		f = open(os.path.join(path, 'notebooks', 'exploration_data.ipynb'), 'w+')
-
-		for fname in ['__init__.py', 'config.py', 'create_folds.py', 'dispatcher.py', 'engine.py', 'feature_generator.py', 'loss.py', 'metrics.py', 'models.py', 'predict.py', 'train.py', 'utils.py']:
+		for fname in ['__init__.py', 'config.py','dataset.py', 'create_folds.py', 'dispatcher.py', 'engine.py', 'feature_generator.py', 'loss.py', 'metrics.py', 'models.py', 'predict.py', 'train.py', 'utils.py']:
 			f = open(os.path.join(path, 'src', fname), 'w+')
 			f.close()
 
