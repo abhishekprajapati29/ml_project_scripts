@@ -1,8 +1,3 @@
-import os
-import argparse
-import textwrap
-
-
 string = '''\
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -153,52 +148,3 @@ models/
 *.h5
 *.pkl
 *.pth'''
-
-
-
-if __name__ == "__main__":
-
-
-	currpath = os. getcwd()
-	parser = argparse.ArgumentParser()
-
-	parser.add_argument(
-		"--pname",
-		type=str
-	)
-
-	args = parser.parse_args()
-	path = os.path.join(currpath, args.pname)
-
-	if os.path.isdir(path) == False:
-		os.mkdir(path)
-
-		os.mkdir(os.path.join(path, 'input'))
-		os.mkdir(os.path.join(path, 'models'))
-		os.mkdir(os.path.join(path, 'notebooks'))
-		os.mkdir(os.path.join(path, 'src'))
-
-		for fname in ['__init__.py', 'config.py','dataset.py', 'create_folds.py', 'dispatcher.py', 'engine.py', 'feature_generator.py', 'loss.py', 'metrics.py', 'models.py', 'predict.py', 'train.py', 'utils.py']:
-			f = open(os.path.join(path, 'src', fname), 'w+')
-			f.close()
-
-		
-		val = str(textwrap.dedent(string))
-
-		f = open(os.path.join(path, '.gitignore'), 'w+')
-		
-		f.write(val)
-			
-		f.close()
-
-
-		for fname in ['LICENCE', 'README.md', 'run.sh']:
-			f = open(os.path.join(path, fname), 'w+')
-			f.close()
-
-
-	else:
-		print('Already exists')
-			
-			
-			
