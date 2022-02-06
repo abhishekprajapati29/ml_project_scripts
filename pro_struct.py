@@ -12,10 +12,19 @@ if __name__ == "__main__":
         type=str
     )
 
-    args = parser.parse_args()
-    path = os.path.join(currpath, args.name)
+    parser.add_argument(
+        "--ename",
+        type=str
+    )
 
-    if os.path.isdir(path) == False:
+    args = parser.parse_args()
+
+    if args.name:
+        path = os.path.join(currpath, args.name)
+        if os.path.isdir(path) == True:
+            print("Folder already Exists")
+            quit()
+
         os.mkdir(path)
 
         # Data
@@ -80,8 +89,34 @@ if __name__ == "__main__":
             f = open(os.path.join(path, fname), 'w+')
             f.close()
 
-        # Successful
-        print('Project Structure Successfully Created')
+        print('Project Structure Successfully Created\n\n')
+
+        if args.ename:
+            ename = os.path.join(currpath, args.name, args.ename)
+            os.mkdir(ename)
+
+            # Data
+            os.mkdir(os.path.join(ename, 'data'))
+
+            # Docker File
+            for fname in ['Dockerfile', 'README.md']:
+                f = open(os.path.join(ename, fname), 'w+')
+                f.close()
+
+            with open(os.path.join(currpath, "data", "dockerfile.txt"), 'r') as f:
+                lines = f.readlines()
+
+            with open(os.path.join(ename, "Dockerfile"), 'w+') as f:
+                f.write("\n".join(lines))
+
+            os.system("docker build -t " + args.ename + " " + ename)
+
+            os.system("docker run --name " + args.ename + "_container" + " -v /" + args.ename + ":/" +
+                      args.ename + "  -w /" + args.ename + " -p 8888:8888 " + args.ename)
+
+            # Successful
 
     else:
-        print('Already exists')
+        print('Project Name Required!')
+
+    # Environment Path
