@@ -1,4 +1,3 @@
-string = '''\
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -147,4 +146,4 @@ models/
 *.csv
 *.h5
 *.pkl
-*.pth'''
+*.pth
