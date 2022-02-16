@@ -2,6 +2,4 @@
 
 -> run file command
 
-    python pro_struct.py --pname <Project name>
-
--> --name = project name
+    python pro_struct.py --name <Project name> --ename <Environment Name>
