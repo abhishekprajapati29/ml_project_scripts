@@ -1,122 +1,117 @@
 import os
-import argparse
 
 
-if __name__ == "__main__":
+class ProjectCreate:
+    def __init__(self, name, ename):
+        self.name = name
+        self.ename = ename
+        self.currpath = os.getcwd()
+        self.path = os.path.join(self.currpath, self.name)
 
-    currpath = os.getcwd()
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--name",
-        type=str
-    )
-
-    parser.add_argument(
-        "--ename",
-        type=str
-    )
-
-    args = parser.parse_args()
-
-    if args.name:
-        path = os.path.join(currpath, args.name)
-        if os.path.isdir(path) == True:
+    def ProjectStructure(self):
+        if os.path.isdir(self.path) == True:
             print("Folder already Exists")
             quit()
 
-        os.mkdir(path)
+        os.mkdir(self.path)
 
         # Data
-        os.mkdir(os.path.join(path, 'data'))
+        os.mkdir(os.path.join(self.path, 'data'))
 
-        os.mkdir(os.path.join(path, 'data', 'external'))
-        os.mkdir(os.path.join(path, 'data', 'interim'))
-        os.mkdir(os.path.join(path, 'data', 'processed'))
-        os.mkdir(os.path.join(path, 'data', 'raw'))
+        os.mkdir(os.path.join(self.path, 'data', 'external'))
+        os.mkdir(os.path.join(self.path, 'data', 'interim'))
+        os.mkdir(os.path.join(self.path, 'data', 'processed'))
+        os.mkdir(os.path.join(self.path, 'data', 'raw'))
 
         # Docs
-        os.mkdir(os.path.join(path, 'docs'))
+        os.mkdir(os.path.join(self.path, 'docs'))
 
         # Models
-        os.mkdir(os.path.join(path, 'models'))
+        os.mkdir(os.path.join(self.path, 'models'))
 
         # Notebooks
-        os.mkdir(os.path.join(path, 'notebooks'))
+        os.mkdir(os.path.join(self.path, 'notebooks'))
 
         # Reports
-        os.mkdir(os.path.join(path, 'report'))
+        os.mkdir(os.path.join(self.path, 'report'))
 
         # Src
-        os.mkdir(os.path.join(path, 'src'))
+        os.mkdir(os.path.join(self.path, 'src'))
 
-        f = open(os.path.join(path, 'src', '__init__.py'), 'w+')
+        f = open(os.path.join(self.path, 'src', '__init__.py'), 'w+')
         f.close()
 
-        os.mkdir(os.path.join(path, 'src', 'data'))
+        os.mkdir(os.path.join(self.path, 'src', 'data'))
 
         for fname in ['dataset.py', 'create_folds.py']:
-            f = open(os.path.join(path, 'src/data', fname), 'w+')
+            f = open(os.path.join(self.path, 'src/data', fname), 'w+')
             f.close()
 
-        os.mkdir(os.path.join(path, 'src', 'features'))
+        os.mkdir(os.path.join(self.path, 'src', 'features'))
 
-        f = open(os.path.join(path, 'src/features',
+        f = open(os.path.join(self.path, 'src/features',
                  'feature_generator.py'), 'w+')
         f.close()
 
-        os.mkdir(os.path.join(path, 'src', 'models'))
+        os.mkdir(os.path.join(self.path, 'src', 'models'))
 
         for fname in ['config.py', 'dispatcher.py', 'engine.py', 'loss.py', 'metrics.py', 'models.py', 'predict.py', 'train.py', 'utils.py']:
-            f = open(os.path.join(path, 'src/models', fname), 'w+')
+            f = open(os.path.join(self.path, 'src/models', fname), 'w+')
             f.close()
 
-        os.mkdir(os.path.join(path, 'src', 'visualization'))
+        os.mkdir(os.path.join(self.path, 'src', 'visualization'))
 
         for fname in ['visualize.py']:
-            f = open(os.path.join(path, 'src/visualization', fname), 'w+')
+            f = open(os.path.join(self.path, 'src/visualization', fname), 'w+')
             f.close()
 
         # Gitignore
-        with open(os.path.join(currpath, 'data/gitignore_content.txt'), 'r') as f:
+        with open(os.path.join(self.currpath, 'data/gitignore_content.txt'), 'r') as f:
             lines = f.readlines()
 
-        with open(os.path.join(path, '.gitignore'), 'w+') as f:
+        with open(os.path.join(self.path, '.gitignore'), 'w+') as f:
             f.write("\n". join(lines))
 
         # Helping files
         for fname in ['LICENCE', 'Makefile', 'README.md', 'requirements.txt', 'run.sh']:
-            f = open(os.path.join(path, fname), 'w+')
+            f = open(os.path.join(self.path, fname), 'w+')
             f.close()
 
         print('Project Structure Successfully Created\n\n')
 
-        if args.ename:
-            ename = os.path.join(currpath, args.name, args.ename)
-            os.mkdir(ename)
+    # Docker
 
-            # Data
-            os.mkdir(os.path.join(ename, 'data'))
+    def DockerEnv(self):
+        docker_path = os.path.join(self.currpath, self.name, self.ename)
+        os.mkdir(docker_path)
 
-            # Docker File
-            for fname in ['Dockerfile', 'README.md']:
-                f = open(os.path.join(ename, fname), 'w+')
-                f.close()
+        # Data
+        os.mkdir(os.path.join(docker_path, 'data'))
 
-            with open(os.path.join(currpath, "data", "dockerfile.txt"), 'r') as f:
-                lines = f.readlines()
+        # Docker File
+        for fname in ['Dockerfile', 'README.md']:
+            f = open(os.path.join(docker_path, fname), 'w+')
+            f.close()
 
-            with open(os.path.join(ename, "Dockerfile"), 'w+') as f:
-                f.write("\n".join(lines))
+        with open(os.path.join(self.currpath, "data", "dockerfile.txt"), 'r') as f:
+            lines = f.readlines()
 
-            os.system("docker build -t " + args.ename + " " + ename)
+        with open(os.path.join(docker_path, "Dockerfile"), 'w+') as f:
+            f.write("\n".join(lines))
 
-            os.system("docker run --name " + args.ename + "_container" + " -v /" + args.ename + ":/" +
-                      args.ename + "  -w /" + args.ename + " -p 8888:8888 " + args.ename)
+        os.system("docker build -t " + self.ename + " " + docker_path)
 
-            # Successful
+        os.system("docker run --name " + self.ename + "_container" + " -v /" + self.ename + ":/" +
+                  self.ename + "  -w /" + self.ename + " -p 8888:8888 " + self.ename)
 
-    else:
-        print('Project Name Required!')
 
-    # Environment Path
+if __name__ == "__main__":
+    print("Create your Project:-")
+    print("Project Name: ", end="")
+    name = str(input())
+    print("Docker Container Name: ", end="")
+    ename = str(input())
+
+    obj = ProjectCreate(name, ename)
+    obj.ProjectStructure()
+    obj.DockerEnv()
